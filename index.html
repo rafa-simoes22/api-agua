@@ -52,8 +52,8 @@
   <div class="conteudo">
     <p>Quantos Copos de 200ml você já bebeu?</p>
     <form id="registro-form" action="/adicionarRegistro" method="POST">
-      <input type="number" id="numero" name="quant" min="1" max="10">
-      <button type="submit">Registrar</button>
+      <input type="number" id="numero" name="quant" min="1" max="10" oninput="habilitarBotao()">
+      <button type="submit" id="botao-registrar" disabled>Registrar</button>
     </form>
     <br>
     <button id="verResultados">Ver Resultados</button>
@@ -93,5 +93,16 @@
         })
         .catch((error) => console.error("Erro ao buscar resultados:", error));
     });
+
+    function habilitarBotao() {
+        const campoQuant = document.getElementById('numero');
+        const botaoRegistrar = document.getElementById('botao-registrar');
+
+        if (campoQuant.value) {
+            botaoRegistrar.removeAttribute('disabled');
+        } else {
+            botaoRegistrar.setAttribute('disabled', 'disabled');
+        }
+    }
   </script>
 </html>
