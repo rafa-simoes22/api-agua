@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Já Bebeu Água Hoje?</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <style>
   .conteudo {
@@ -14,8 +13,39 @@
     align-items: center;
     margin-top: 5%;
   }
-  .resultados {
-    border: solid;
+  table {
+    border-collapse: collapse;
+    width: 80%;
+    margin-top: 20px;
+    margin-left: 10%;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #ddd;
+  }
+
+  /* Ajuste as larguras das colunas conforme necessário */
+  th:first-child, td:first-child {
+    width: 30%;
+  }
+
+  th:last-child, td:last-child {
+    width: 70%;
   }
 </style>
 <body>
@@ -25,7 +55,43 @@
       <input type="number" id="numero" name="quant" min="1">
       <button type="submit">Registrar</button>
     </form>
+    <br>
+    <button id="verResultados">Ver Resultados</button>
   </div>
-  <div class="resultados"></div>
+  <div class="resultados">
+    <table id="tabelaResultados">
+        <thead>
+          <tr>
+            <th>Quantidade de Copos</th>
+            <br>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dados da tabela serão inseridos aqui -->
+        </tbody>
+      </table>
+  </div>
 </body>
+<script>
+    document.getElementById("verResultados").addEventListener("click", function () {
+      const tabelaResultados = document.getElementById("tabelaResultados");
+  
+      // Realizar uma requisição AJAX para obter os resultados do banco de dados
+      fetch("/resultados") // Crie uma rota no servidor para lidar com essa requisição
+        .then((response) => response.json())
+        .then((data) => {
+          // Limpar a tabela de resultados
+          tabelaResultados.querySelector("tbody").innerHTML = "";
+  
+          // Preencher a tabela com os dados recebidos
+          data.forEach((row) => {
+            const newRow = tabelaResultados.querySelector("tbody").insertRow();
+            newRow.insertCell(0).textContent = row.quant;
+            newRow.insertCell(1).textContent = row.data;
+          });
+        })
+        .catch((error) => console.error("Erro ao buscar resultados:", error));
+    });
+  </script>
 </html>

@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser'); // Importe o body-parser
+const ejs = require('ejs'); // Adicione o EJS
 
+app.set('view engine', 'ejs'); // Defina o EJS como o mecanismo de modelo
 app.use(bodyParser.urlencoded({ extended: true })); // Configure o body-parser
 
 const router = express.Router();
@@ -40,7 +42,19 @@ app.post('/adicionarRegistro', (req, res) => {
         res.redirect('/');
       }
     });
-  });
+});
+
+app.get('/resultados', (req, res) => {
+    const sql = 'SELECT quant, data FROM registros';
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.error('Erro ao buscar resultados:', error);
+            res.status(500).json({ error: 'Erro ao buscar resultados' });
+        } else {
+            res.json(results);
+        }
+    });
+});
 
 connection.connect((err) => {
   if (err) {
