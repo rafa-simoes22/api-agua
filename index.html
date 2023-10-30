@@ -1,34 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Já Bebeu Água Hoje?</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Já Bebeu Água Hoje?</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <style>
-    .conteudo {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: solid;
-        margin-top: 5%;
-    }
-    .resultados {
-        border: solid;
-    }
+  .conteudo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: solid;
+    margin-top: 5%;
+  }
+  .resultados {
+    border: solid;
+  }
 </style>
 <body>
-    <div class="conteudo">
-        <p>Quantos Copos de 200ml você já bebeu?</p>
-        <form>
-            <input type="number" id="numero" min="1">
-        </form>
-        <br>
-        <button>Registrar</button>
-    </div>
-    <div class="resultados">
-
-    </div>
+  <div class="conteudo">
+    <p>Quantos Copos de 200ml você já bebeu?</p>
+    <form id="registro-form" action="/adicionarRegistro" method="POST">
+      <input type="number" id="numero" name="quant" min="1">
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+  <div class="resultados"></div>
 </body>
 </html>
