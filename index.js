@@ -26,21 +26,21 @@ const connection = mysql.createConnection({
 });
 
 app.post('/adicionarRegistro', (req, res) => {
-  const { quant } = req.body;
-
-  const sql = 'INSERT INTO registros (quant) VALUES (?)';
-  const values = [quant];
-
-  connection.query(sql, values, (error, results) => {
-    if (error) {
-      console.error('Erro ao inserir registro:', error);
-      res.status(500).json({ error: 'Erro ao inserir registro' });
-    } else {
-      console.log('Registro inserido com sucesso!');
-      res.redirect('/');
-    }
+    const { quant } = req.body;
+  
+    const sql = 'INSERT INTO registros (quant, data) VALUES (?, NOW())'; // Use NOW() para a data e hora atuais
+    const values = [quant];
+  
+    connection.query(sql, values, (error, results) => {
+      if (error) {
+        console.error('Erro ao inserir registro:', error);
+        res.status(500).json({ error: 'Erro ao inserir registro' });
+      } else {
+        console.log('Registro inserido com sucesso!');
+        res.redirect('/');
+      }
+    });
   });
-});
 
 connection.connect((err) => {
   if (err) {
