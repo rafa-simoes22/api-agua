@@ -4,6 +4,8 @@ const path = require('path');
 const bodyParser = require('body-parser'); // Importe o body-parser
 const ejs = require('ejs'); // Adicione o EJS
 
+const moment = require('moment');
+
 app.set('view engine', 'ejs'); // Defina o EJS como o mecanismo de modelo
 app.use(bodyParser.urlencoded({ extended: true })); // Configure o body-parser
 
@@ -47,12 +49,18 @@ app.post('/adicionarRegistro', (req, res) => {
 app.get('/resultados', (req, res) => {
     const sql = 'SELECT quant, data FROM registros';
     connection.query(sql, (error, results) => {
-        if (error) {
-            console.error('Erro ao buscar resultados:', error);
-            res.status(500).json({ error: 'Erro ao buscar resultados' });
-        } else {
-            res.json(results);
-        }
+      if (error) {
+        console.error('Erro ao buscar resultados:', error);
+        res.status(500).json({ error: 'Erro ao buscar resultados' });
+      } else {
+        // Formate a data no formato desejado usando moment.js
+        const formattedResults = results.map((row) => ({
+          quant: row.quant,
+          data: moment(row.data).format('DD-MM-YYYY [às] HH:mm:ss'),
+        }));
+        
+        res.json(formattedResults);
+      }
     });
 });
 
